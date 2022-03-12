@@ -38,7 +38,6 @@ jobs:
       NOME_WEBAPP_AZURE: democdactions
      environment:
        name: dev 
-       url: ${{ steps.app-web.outputs.webapp-url }}
      needs: build
      steps:
        - uses: actions/download-artifact@v2
@@ -47,13 +46,7 @@ jobs:
            path: ${{ github.workspace }}//demo
            
        - name: 'Run Azure webapp deploy action using publish profile credentials'
-         uses: azure/webapps-deploy@v2
-         id: app-web
-         with: 
-           app-name: ${{ env.AZURE_WEBAPP_NAME }} 
-           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }} 
-           package: '${{ github.workspace }}//demo'
-           slot-name: 'dev'
+         run: echo "passando DEV.."
      
 
   deploy-qa:
@@ -63,7 +56,6 @@ jobs:
       NOME_WEBAPP_AZURE: democdactions
      environment:
        name: qa 
-       url: ${{ steps.app-web.outputs.webapp-url }}
      needs: deploy-dev
      steps:
        - uses: actions/download-artifact@v2
@@ -72,13 +64,7 @@ jobs:
            path: ${{ github.workspace }}//demo
            
        - name: 'Run Azure webapp deploy action using publish profile credentials'
-         uses: azure/webapps-deploy@v2
-         id: app-web
-         with: 
-           app-name: ${{ env.AZURE_WEBAPP_NAME }} 
-           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }} 
-           package: '${{ github.workspace }}//demo'
-           slot-name: 'qa'
+         run: echo "passando QA.."
          
   deploy-prd:
      name: Deploy Produção
@@ -87,7 +73,6 @@ jobs:
       NOME_WEBAPP_AZURE: democdactions
      environment:
        name: prd 
-       url: ${{ steps.app-web.outputs.webapp-url }}
      needs: deploy-qa
      steps:
        - uses: actions/download-artifact@v2
@@ -96,9 +81,4 @@ jobs:
            path: ${{ github.workspace }}//demo
            
        - name: 'Run Azure webapp deploy action using publish profile credentials'
-         uses: azure/webapps-deploy@v2
-         id: app-web
-         with: 
-           app-name: ${{ env.AZURE_WEBAPP_NAME }} 
-           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }} 
-           package: '${{ github.workspace }}//demo'
+         run: echo "passando PROD.."
